@@ -9,8 +9,4 @@ defmodule Absinthe.ConnTest.Test.Endpoint do
   )
 
   plug(Absinthe.Plug, schema: Absinthe.ConnTest.Test.Schema)
-
-  def init(_, config) do
-    {:ok, Keyword.put(config, :secret_key_base, "blah blah blah blah blah")}
-  end
 end

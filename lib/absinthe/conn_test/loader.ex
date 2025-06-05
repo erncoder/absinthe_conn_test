@@ -1,13 +1,13 @@
 defmodule Absinthe.ConnTest.Loader do
   @moduledoc false
 
-  alias Absinthe.Phase.Parse
+  alias Absinthe.ConnTest.LoadError
   alias Absinthe.Language
-  alias Absinthe.Language.Source
-  alias Absinthe.Language.OperationDefinition
   alias Absinthe.Language.Fragment
   alias Absinthe.Language.FragmentSpread
-  alias Absinthe.ConnTest.LoadError
+  alias Absinthe.Language.OperationDefinition
+  alias Absinthe.Language.Source
+  alias Absinthe.Phase.Parse
 
   @typep input :: String.t()
   @typep lines :: [String.t()]
@@ -41,7 +41,7 @@ defmodule Absinthe.ConnTest.Loader do
   @doc "Resolve all dependencies from queries, thus removing fragments"
   @spec resolve([Query.t()]) :: [Query.t()]
   def resolve(queries) do
-    {fragments, operations} = Enum.split_with(queries, &is_fragment/1)
+    {fragments, operations} = Enum.split_with(queries, &fragment?/1)
     fragments = Map.new(fragments, &{&1.name, &1})
     Enum.map(operations, &resolve(&1, fragments))
   end
@@ -103,7 +103,7 @@ defmodule Absinthe.ConnTest.Loader do
   defp deduct({line, column}), do: {line, column - 1}
 
   defp do_get_source(lines, {a, b}, {c, d}) do
-    lines |> Enum.slice(a..c) |> Enum.join("\n") |> String.slice(b..d)
+    lines |> Enum.slice(a..c//1) |> Enum.join("\n") |> String.slice(b..d//1)
   end
 
   @spec get_type(Language.t()) :: Query.type()
@@ -151,11 +151,11 @@ defmodule Absinthe.ConnTest.Loader do
       path
       |> Path.expand(root)
       |> load!()
-      |> Enum.filter(&is_fragment/1)
+      |> Enum.filter(&fragment?/1)
     end)
   end
 
-  @spec is_fragment(Query.t()) :: boolean()
-  defp is_fragment(%Query{type: :fragment}), do: true
-  defp is_fragment(%Query{}), do: false
+  @spec fragment?(Query.t()) :: boolean()
+  defp fragment?(%Query{type: :fragment}), do: true
+  defp fragment?(%Query{}), do: false
 end

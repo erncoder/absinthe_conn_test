@@ -1,4 +1,6 @@
 defmodule Absinthe.ConnTest.Test.Schema do
+  @moduledoc false
+
   use Absinthe.Schema
 
   import_types(Absinthe.Plug.Types)

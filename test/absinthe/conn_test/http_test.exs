@@ -12,8 +12,8 @@ defmodule Absinthe.ConnTest.HTTPTest do
 
     test "extracts an upload" do
       request = HTTP.request("", foo: @upload, bar: @upload)
-      assert_upload(request, ["bar"], 0)
-      assert_upload(request, ["foo"], 1)
+      assert_upload(request, ["foo"], 0)
+      assert_upload(request, ["bar"], 1)
     end
 
     test "extracts an upload from a list" do
@@ -24,14 +24,14 @@ defmodule Absinthe.ConnTest.HTTPTest do
 
     test "extracts uploads from a map" do
       request = HTTP.request("", foo: %{bar: @upload}, buzz: @upload)
-      assert_upload(request, ["buzz"], 0)
-      assert_upload(request, ["foo", "bar"], 1)
+      assert_upload(request, ["foo", "bar"], 0)
+      assert_upload(request, ["buzz"], 1)
     end
 
     test "extracts uploads from a deeply nested structure" do
       request = HTTP.request("", foo: [99, %{bar: %{baz: @upload}}], buzz: @upload)
-      assert_upload(request, ["buzz"], 0)
-      assert_upload(request, ["foo", Access.at(1), "bar", "baz"], 1)
+      assert_upload(request, ["foo", Access.at(1), "bar", "baz"], 0)
+      assert_upload(request, ["buzz"], 1)
     end
   end
 

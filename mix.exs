@@ -8,7 +8,7 @@ defmodule Absinthe.ConnTest.MixProject do
     [
       app: :absinthe_conn_test,
       version: @version,
-      elixir: "~> 1.10",
+      elixir: "~> 1.18.3",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -33,9 +33,10 @@ defmodule Absinthe.ConnTest.MixProject do
       {:absinthe, "~> 1.5"},
       {:plug, "~> 1.0"},
       {:phoenix, "~> 1.0"},
-      {:jason, ">= 0.0.0", only: :test},
+      {:jason, ">= 0.0.0", only: [:dev, :test]},
       {:absinthe_plug, ">= 0.0.0", only: :test},
-      {:ex_doc, "~> 0.23", only: :dev, runtime: false}
+      {:ex_doc, "~> 0.23", only: :dev, runtime: false},
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false}
     ]
   end
 
