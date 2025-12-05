@@ -8,7 +8,7 @@ defmodule Absinthe.ConnTest.MixProject do
     [
       app: :absinthe_conn_test,
       version: @version,
-      elixir: "~> 1.18.3",
+      elixir: "~> 1.19",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       deps: deps(),
